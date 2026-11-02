@@ -4,8 +4,8 @@
 - Workspace audit: empty workspace; no existing Unity project.
 - Tool discovery: Python, Node and Git available; Unity, Unity Hub and C# compiler not found in PATH or inspected install locations. Android SDK/build support and Blender unavailable in inspected locations.
 - `python3 tools/validate_source.py`: **24 structural checks PASSED**. Parses assembly definitions and package manifest, verifies required files, bootstrap GUID and build scene entry. This is not a C# syntax, package compatibility, asset import or gameplay test.
-- Four NUnit EditMode tests authored: timer boundaries, ordered checkpoints/finish, restart reset, and respawn preservation. **NOT EXECUTED**: Unity is unavailable.
-- No APK or Web build produced. No remote push, deployment, purchased resource or blockchain action performed.
+- Seven NUnit EditMode cases plus four PlayMode tests authored: timer boundaries, ordered checkpoints/finish, restart reset, and respawn preservation. **NOT EXECUTED**: Unity is unavailable.
+- No APK or Web build produced. The initial validation run performed no remote push, deployment, purchased resource or blockchain action. The initial source was subsequently uploaded to Akin-Tunde/Token_run at 8236e96. No deployment, purchased resource or blockchain action has occurred.
 
 ## Acceptance checklist
 | Requirement | Status | Required verification |
@@ -29,3 +29,11 @@
 3. Play every acceptance scenario above, including finishing without prerequisites, repeated trigger entry, falling at runway edges and replay after completion.
 4. Build Android and Web using Editor build methods; test Android on budget and midrange hardware and Web over HTTP.
 5. Record frame timings, memory, thermal behavior and touch/UI usability. Fix Phase 1 issues before requesting Phase 2.
+
+Follow-up: see PHASE_1_FOLLOWUP.md. Initial 24-check result above is retained as historical evidence; current audit adds metadata and assembly checks. C# syntax parsing is not a compiler or Unity API check.
+
+## Follow-up executed results
+- Current structural audit: **95 checks PASSED**.
+- Tree-sitter C# syntax parse: **12 source files PASSED**; this does not check Unity API types or compilation.
+- Python AST syntax checks: **2 tools PASSED**.
+- `python3 tools/verify_unity.py`: exited **2 / BLOCKED**, correctly reporting missing Unity Editor. No Unity tests or builds were run.

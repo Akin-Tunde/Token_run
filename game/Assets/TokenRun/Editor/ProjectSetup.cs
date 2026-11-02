@@ -10,6 +10,9 @@ namespace TokenRun.Editor {
    settings.FindProperty("activeInputHandler").intValue=1; settings.ApplyModifiedPropertiesWithoutUndo();
    PlayerSettings.companyName="Token Run"; PlayerSettings.productName="Token Run Hybrid";
    PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
+   PlayerSettings.Android.minSdkVersion=AndroidSdkVersions.AndroidApiLevel26;
+   PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android,ScriptingImplementation.IL2CPP);
+   PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARM64;
    PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Android,"com.tokenrun.hybrid");
    const string path="Assets/TokenRun/Materials/MobilePipeline.asset";
    var pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(path);
@@ -27,6 +30,7 @@ namespace TokenRun.Editor {
   public static void BuildWeb() { Configure(); Build("Builds/Web",BuildTarget.WebGL); }
   public static void BuildAndroid() { Configure(); Build("Builds/Android/TokenRun.apk",BuildTarget.Android); }
   static void Build(string path,BuildTarget target) {
+   System.IO.Directory.CreateDirectory(target==BuildTarget.Android?System.IO.Path.GetDirectoryName(path):path);
    var report=BuildPipeline.BuildPlayer(EditorBuildSettings.scenes,path,target,BuildOptions.None);
    if(report.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded) throw new System.Exception("Build failed: "+report.summary.result);
   }

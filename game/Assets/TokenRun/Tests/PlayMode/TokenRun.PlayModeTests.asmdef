@@ -1,0 +1,11 @@
+{
+  "name": "TokenRun.PlayModeTests",
+  "references": [
+    "TokenRun.Runtime",
+    "Unity.InputSystem",
+    "UnityEngine.UI"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

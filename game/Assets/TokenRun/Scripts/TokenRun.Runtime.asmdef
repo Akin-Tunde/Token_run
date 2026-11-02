@@ -1,1 +1,7 @@
-{"name": "TokenRun.Runtime", "references": ["Unity.InputSystem", "Unity.ugui"]}
+{
+  "name": "TokenRun.Runtime",
+  "references": [
+    "Unity.InputSystem",
+    "UnityEngine.UI"
+  ]
+}

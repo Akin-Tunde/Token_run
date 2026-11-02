@@ -1,0 +1,24 @@
+name: Unity validation (configured runner required)
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        type: choice
+        options: [none, android, web, both]
+        default: none
+        description: Build target after tests
+permissions:
+  contents: read
+jobs:
+  unity:
+    runs-on: [self-hosted, token-run-unity]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and optionally build
+        env:
+          TOKEN_RUN_BUILD: ${{ inputs.build }}
+        run: python3 tools/verify_unity.py --build "$TOKEN_RUN_BUILD"
+# Runner owner must install Python 3, activated Unity 6.3, target modules,
+# and set UNITY_EDITOR_PATH. No license, paid runner or remote service is provisioned.
+# Only run trusted branches on a self-hosted machine.

@@ -21,4 +21,19 @@ for name in ['RunnerMotor','RunnerInput','RaceState','RaceDirector','CourseTrigg
 for name in ['README.md','AGENTS.md','docs/PHASE_1_PLAN.md','docs/DEPENDENCIES.md']:
  check((root/name).is_file(),name)
 check('MoonLaunch.unity' in (root/'game/ProjectSettings/EditorBuildSettings.asset').read_text(),'build scene')
+# Validate stable Unity metadata and actual assembly names.
+assets=root/'game/Assets/TokenRun'
+check(not list(assets.rglob('*.meta.meta')),'recursive .meta files')
+guids=set()
+for path in assets.rglob('*.meta'):
+ lines=path.read_text().splitlines()
+ guid=next((line.split(': ',1)[1] for line in lines if line.startswith('guid: ')),None)
+ check(bool(guid) and guid not in guids,str(path)+' GUID must be unique')
+ guids.add(guid)
+ original=Path(str(path)[:-5])
+ check(original.exists(),str(path)+' orphan metadata')
+runtime=json.loads((assets/'Scripts/TokenRun.Runtime.asmdef').read_text())
+check('UnityEngine.UI' in runtime['references'],'UGUI uses UnityEngine.UI assembly')
+check('Unity.ugui' not in runtime['references'],'invalid UI assembly reference')
+check((assets/'Tests/PlayMode/CoursePlayTests.cs').is_file(),'gameplay tests')
 print(f'PASS: {checks} structural checks. Unity compilation, tests and gameplay remain UNVERIFIED.')

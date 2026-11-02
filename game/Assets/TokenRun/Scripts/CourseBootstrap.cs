@@ -7,6 +7,7 @@ namespace TokenRun {
  // All geometry is original, code-generated PROTOTYPE geometry, not final art.
  public sealed class CourseBootstrap : MonoBehaviour {
   RaceDirector race; Font font;
+  readonly System.Collections.Generic.Dictionary<Color,Material> materials=new System.Collections.Generic.Dictionary<Color,Material>();
   void Awake() {
    Application.targetFrameRate=60;
    font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -32,7 +33,16 @@ namespace TokenRun {
    BuildUI();
   }
   GameObject Box(string name,Vector3 pos,Vector3 scale,Color color) { var g=GameObject.CreatePrimitive(PrimitiveType.Cube); g.name=name; g.transform.position=pos; g.transform.localScale=scale; Paint(g,color); return g; }
-  void Paint(GameObject g,Color color) { var shader=Shader.Find("Universal Render Pipeline/Lit"); if(!shader) shader=Shader.Find("Standard"); var template=Resources.Load<Material>("PrototypeMaterial"); var mat=template?new Material(template):new Material(shader); mat.color=color; g.GetComponent<Renderer>().sharedMaterial=mat; }
+  void Paint(GameObject g,Color color) {
+   if(!materials.TryGetValue(color,out var mat)) {
+    var template=Resources.Load<Material>("PrototypeMaterial");
+    var shader=Shader.Find("Universal Render Pipeline/Lit"); if(!shader) shader=Shader.Find("Standard");
+    if(!template && !shader) throw new System.InvalidOperationException("Run Token Run > Configure Phase 1 before playing or building.");
+    mat=template?new Material(template):new Material(shader); mat.color=color; materials.Add(color,mat);
+   }
+   g.GetComponent<Renderer>().sharedMaterial=mat;
+  }
+  void OnDestroy() { foreach(var mat in materials.Values) if(mat) Destroy(mat); materials.Clear(); }
   void Gate(string name,float z,int id,bool finish) {
    var g=Box(name,new Vector3(0,2,z),new Vector3(12,4,.35f),finish?new Color(.2f,1,.5f,.25f):new Color(.2f,.7f,1));
    // Invisible trigger plus visible side markers; full-width gate never blocks movement.
@@ -58,15 +68,17 @@ namespace TokenRun {
    var canvas=new GameObject("Race UI").AddComponent<Canvas>(); canvas.renderMode=RenderMode.ScreenSpaceOverlay;
    var scale=canvas.gameObject.AddComponent<CanvasScaler>(); scale.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize; scale.referenceResolution=new Vector2(1280,720); scale.matchWidthOrHeight=.5f;
    canvas.gameObject.AddComponent<GraphicRaycaster>();
+   var safe=new GameObject("Safe area",typeof(RectTransform)); safe.transform.SetParent(canvas.transform,false); safe.AddComponent<SafeAreaLayout>();
+   Transform ui=safe.transform;
    var events=new GameObject("EventSystem"); events.AddComponent<EventSystem>(); events.AddComponent<InputSystemUIInputModule>();
-   race.Status=Label("HUD",canvas.transform,"",new Vector2(.5f,1),new Vector2(0,-35),new Vector2(1200,60),22);
-   Text title; race.StartPanel=Panel("Start",canvas.transform,"TOKEN RUN HYBRID\nMoon Launch • Phase 1 prototype\nWASD / arrows + Space, or touch stick + Jump\nCross both blue gates, then reach green. Avoid orange bars.",out title);
+   race.Status=Label("HUD",ui,"",new Vector2(.5f,1),new Vector2(0,-35),new Vector2(1200,60),22);
+   Text title; race.StartPanel=Panel("Start",ui,"TOKEN RUN HYBRID\nMoon Launch • Phase 1 prototype\nWASD / arrows + Space, or touch stick + Jump\nCross both blue gates, then reach green. Avoid orange bars.",out title);
    Button("START RACE",race.StartPanel.transform,new Vector2(0,-100),race.Begin);
-   race.ResultPanel=Panel("Result",canvas.transform,"",out race.Results); Button("RACE AGAIN",race.ResultPanel.transform,new Vector2(0,-100),race.Begin); race.ResultPanel.SetActive(false);
-   var pad=Rect("Touch stick",canvas.transform,Vector2.zero,new Vector2(130,125),new Vector2(150,150)); pad.gameObject.AddComponent<Image>().color=new Color(.1f,.3f,.4f,.7f);
+   race.ResultPanel=Panel("Result",ui,"",out race.Results); Button("RACE AGAIN",race.ResultPanel.transform,new Vector2(0,-100),race.Begin); race.ResultPanel.SetActive(false);
+   var pad=Rect("Touch stick",ui,Vector2.zero,new Vector2(130,125),new Vector2(150,150)); pad.gameObject.AddComponent<Image>().color=new Color(.1f,.3f,.4f,.7f);
    var knob=Rect("Stick knob",pad,new Vector2(.5f,.5f),Vector2.zero,new Vector2(80,80)); knob.gameObject.AddComponent<Image>().color=Color.cyan;
    var stick=knob.gameObject.AddComponent<OnScreenStick>(); stick.controlPath="<Gamepad>/leftStick"; stick.movementRange=55;
-   var jump=Rect("Touch jump",canvas.transform,new Vector2(1,0),new Vector2(-120,115),new Vector2(150,100)); jump.gameObject.AddComponent<Image>().color=new Color(.1f,.6f,.4f,.8f);
+   var jump=Rect("Touch jump",ui,new Vector2(1,0),new Vector2(-120,115),new Vector2(150,100)); jump.gameObject.AddComponent<Image>().color=new Color(.1f,.6f,.4f,.8f);
    var touch=jump.gameObject.AddComponent<OnScreenButton>(); touch.controlPath="<Gamepad>/buttonSouth";
    Label("Jump label",jump,"JUMP",new Vector2(.5f,.5f),Vector2.zero,new Vector2(150,100),28);
   }
