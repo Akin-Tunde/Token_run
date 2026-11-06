@@ -1,0 +1,35 @@
+{
+  "clips": {
+    "Idle": {
+      "fbx_reimported": true,
+      "frames": [
+        2,
+        62
+      ],
+      "max_mesh_motion_m": 0.02853,
+      "loop_mesh_seam_m": 0.0,
+      "max_root_drift_m": 0
+    },
+    "Run": {
+      "fbx_reimported": true,
+      "frames": [
+        2,
+        26
+      ],
+      "max_mesh_motion_m": 0.64479,
+      "loop_mesh_seam_m": 0.0,
+      "max_root_drift_m": 0
+    },
+    "Jump": {
+      "fbx_reimported": true,
+      "frames": [
+        2,
+        32
+      ],
+      "max_mesh_motion_m": 0.49044,
+      "loop_mesh_seam_m": 0.0,
+      "max_root_drift_m": 0
+    }
+  },
+  "unity_tested": false
+}

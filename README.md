@@ -1,7 +1,7 @@
 # Token Run Hybrid — Phase 1 source prototype
 Original single-player obstacle race for Unity, Android and Web. No wallet, token, purchases, backend or network connection is required or implemented.
 
-**Status: implemented source, NOT a verified playable release.** Unity/Hub, C# compiler, Android SDK and Blender were not available in the authoring environment. No Unity compilation, package resolution, game execution or target build has been performed. See docs/VALIDATION.md.
+**Status: implemented source, NOT a verified playable release.** Blender character modeling, rigging and animation exports have been executed. Unity Hub is installed, but an installed/activated Editor has not been located. No Unity compilation, package resolution, game execution or target build has been performed. See docs/VALIDATION.md and [runner integration status](docs/RUNNER_UNITY_INTEGRATION.md).
 
 ## Open and play
 1. Install Unity Hub and Unity **6.3 LTS (6000.3.0f1)** plus Android Build Support (SDK, NDK, OpenJDK) and Web Build Support. This reproducible baseline is not a claim that it is the latest security patch. Prefer a current patched 6.3 LTS editor for a release; validate and record any upgrade before shipping.
@@ -19,7 +19,7 @@ Switch Build Profiles to Web and Build And Run with Unity's local server. Test a
 
 ## Tests and command line
 Run `python3 tools/validate_source.py` from the repository root (structural checks only).
-Run Unity Test Runner → EditMode and PlayMode → Run All. There are seven race-state cases and four scene/gameplay tests. All require execution in Unity.
+Run Unity Test Runner → EditMode and PlayMode → Run All. There are seven race-state cases and five scene/gameplay tests, including animated movement/jump/replay. All require execution in Unity after Configure Phase 1.
 
 For an automated full verification run:
 ```sh
@@ -43,4 +43,4 @@ Do not add `-quit` to the test command; the test runner exits on completion. Bui
 `backend/`, `contracts/`: empty reserved folders; future phases require authorization.
 `tools/`, `tests/`, `.github/workflows/`: source audit and CI.
 
-All geometry is prototype art. No production character assets, audio, multiplayer, backend, blockchain, deployment or measured hardware performance is included. Do not describe Phase 1 as accepted until every runtime acceptance check is verified.
+All geometry is prototype art. An original Blender runner and Idle/Run/Jump clips are supplied; Configure Phase 1 prepares their Unity prefab and materials, with a capsule fallback until setup succeeds. Unity playback remains unverified. No production-ready character, audio, multiplayer, backend, blockchain, deployment or measured hardware performance is included. Do not describe Phase 1 as accepted until every runtime acceptance check is verified.

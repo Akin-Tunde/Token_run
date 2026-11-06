@@ -1,0 +1,14 @@
+{
+  "triangles": 5712,
+  "body_topology": {
+    "components": 1,
+    "non_manifold_edges": 0,
+    "quads": 1660,
+    "faces": 1660
+  },
+  "rigged": false,
+  "animated": false,
+  "materials": 6,
+  "unity_import_verified": false,
+  "note": "Continuous quad suit plus separate armor shells; skinning and deformation not yet validated."
+}

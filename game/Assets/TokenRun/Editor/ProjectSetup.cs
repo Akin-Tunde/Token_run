@@ -25,9 +25,18 @@ namespace TokenRun.Editor {
    EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/TokenRun/Scenes/MoonLaunch.unity",true)};
    if(!AssetDatabase.IsValidFolder("Assets/TokenRun/Resources")) AssetDatabase.CreateFolder("Assets/TokenRun","Resources");
    if(!AssetDatabase.LoadAssetAtPath<Material>("Assets/TokenRun/Resources/PrototypeMaterial.mat")) AssetDatabase.CreateAsset(new Material(Shader.Find("Universal Render Pipeline/Lit")),"Assets/TokenRun/Resources/PrototypeMaterial.mat");
+   RunnerVisualSetup.Configure();
    AssetDatabase.SaveAssets(); Debug.Log("Phase 1 configured. Restart Editor if input backend changed.");
   }
   public static void BuildWeb() { Configure(); Build("Builds/Web",BuildTarget.WebGL); }
+  // Unity Build Automation pre-export hook; UBA owns the actual BuildPlayer call.
+  public static void PrepareCloudBuild() {
+   Configure();
+   if(EditorUserBuildSettings.activeBuildTarget==BuildTarget.WebGL)
+    PlayerSettings.WebGL.decompressionFallback=true;
+   AssetDatabase.SaveAssets();
+   Debug.Log("Cloud setup completed. This is configuration, not a successful build or test result.");
+  }
   public static void BuildAndroid() { Configure(); Build("Builds/Android/TokenRun.apk",BuildTarget.Android); }
   static void Build(string path,BuildTarget target) {
    System.IO.Directory.CreateDirectory(target==BuildTarget.Android?System.IO.Path.GetDirectoryName(path):path);

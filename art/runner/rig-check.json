@@ -1,0 +1,21 @@
+{
+  "bones": 22,
+  "deforming_bones": 21,
+  "weighted_meshes": 26,
+  "unweighted_vertices": 0,
+  "weight_sum_errors": 0,
+  "max_influences": 4,
+  "pose_checks": {
+    "arms": {
+      "max_vertex_displacement_m": 0.5421,
+      "finite_and_bounded": true
+    },
+    "stride": {
+      "max_vertex_displacement_m": 0.6113,
+      "finite_and_bounded": true
+    }
+  },
+  "unity_humanoid_mapping_tested": false,
+  "animations_created": false,
+  "rig_type": "FK humanoid, mitten hands; no IK controls"
+}

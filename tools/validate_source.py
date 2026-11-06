@@ -10,7 +10,7 @@ def check(value,message):
 for path in (root/'game').rglob('*.asmdef'):
  check(bool(json.loads(path.read_text())['name']),str(path))
 m=json.loads((root/'game/Packages/manifest.json').read_text())
-for name in ['com.unity.inputsystem','com.unity.render-pipelines.universal','com.unity.test-framework','com.unity.ugui','com.unity.modules.physics','com.unity.modules.audio']:
+for name in ['com.unity.inputsystem','com.unity.render-pipelines.universal','com.unity.test-framework','com.unity.ugui','com.unity.modules.physics','com.unity.modules.audio','com.unity.modules.animation']:
  check(name in m['dependencies'],name)
 scene=(root/'game/Assets/TokenRun/Scenes/MoonLaunch.unity').read_text()
 check('0c8d44607a354236969e23999058f3b1' in scene,'scene bootstrap GUID')

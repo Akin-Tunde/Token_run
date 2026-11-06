@@ -1,0 +1,43 @@
+{
+  "fps": 30,
+  "root_motion": false,
+  "unity_playback_tested": false,
+  "clips": {
+    "Idle": {
+      "frames": [
+        1,
+        61
+      ],
+      "seconds": 2.0,
+      "loop": true,
+      "rotation_seam_error": 0.0,
+      "min_sole_z": 0.00777,
+      "max_sole_z": 0.00777,
+      "root_translation_zero": true
+    },
+    "Run": {
+      "frames": [
+        1,
+        25
+      ],
+      "seconds": 0.8,
+      "loop": true,
+      "rotation_seam_error": 0.0,
+      "min_sole_z": 0.008,
+      "max_sole_z": 0.008,
+      "root_translation_zero": true
+    },
+    "Jump": {
+      "frames": [
+        1,
+        31
+      ],
+      "seconds": 1.0,
+      "loop": false,
+      "rotation_seam_error": null,
+      "min_sole_z": 0.008,
+      "max_sole_z": 0.11386,
+      "root_translation_zero": true
+    }
+  }
+}

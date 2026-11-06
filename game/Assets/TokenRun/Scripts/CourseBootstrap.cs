@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.OnScreen;
 namespace TokenRun {
- // All geometry is original, code-generated PROTOTYPE geometry, not final art.
+ // Course geometry is original, code-generated PROTOTYPE geometry, not final art.
  public sealed class CourseBootstrap : MonoBehaviour {
   RaceDirector race; Font font;
   readonly System.Collections.Generic.Dictionary<Color,Material> materials=new System.Collections.Generic.Dictionary<Color,Material>();
@@ -25,9 +25,14 @@ namespace TokenRun {
    Gate("Checkpoint 1",25,1,false); Gate("Checkpoint 2",45,2,false); Gate("Finish",73,0,true);
    var player=new GameObject("Prototype capsule runner"); player.transform.position=new Vector3(0,2,0);
    var cc=player.AddComponent<CharacterController>(); cc.height=2; cc.radius=.45f; cc.center=Vector3.up; cc.stepOffset=.3f;
-   var visual=GameObject.CreatePrimitive(PrimitiveType.Capsule); visual.name="Prototype body"; visual.transform.SetParent(player.transform,false); visual.transform.localPosition=Vector3.up;
-   Destroy(visual.GetComponent<Collider>()); Paint(visual,new Color(.1f,1,.65f));
    player.AddComponent<RunnerInput>(); var motor=player.AddComponent<RunnerMotor>(); motor.Race=race; race.Runner=motor;
+   var runnerVisual=Resources.Load<GameObject>("RunnerVisual");
+   if(runnerVisual) Instantiate(runnerVisual,player.transform,false);
+   else {
+    var visual=GameObject.CreatePrimitive(PrimitiveType.Capsule); visual.name="Prototype body"; visual.transform.SetParent(player.transform,false); visual.transform.localPosition=Vector3.up;
+    Destroy(visual.GetComponent<Collider>()); Paint(visual,new Color(.1f,1,.65f));
+    Debug.LogWarning("Animated runner is not configured. Run Token Run > Configure Phase 1; using capsule fallback.");
+   }
    var camera=new GameObject("Main Camera").AddComponent<Camera>(); camera.tag="MainCamera"; camera.backgroundColor=new Color(.04f,.06f,.12f); camera.clearFlags=CameraClearFlags.SolidColor;
    camera.transform.position=new Vector3(0,9,-10); camera.gameObject.AddComponent<AudioListener>(); camera.gameObject.AddComponent<FollowCamera>().Target=player.transform;
    BuildUI();

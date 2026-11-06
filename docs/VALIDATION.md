@@ -1,5 +1,11 @@
 # Phase 1 validation — 2026-11-02
 
+## Current follow-up — 2026-11-06
+
+Blender character modeling, rigging, three animation exports and their independent Blender reimport checks have now executed. Unity integration source, four imported-source FBXs and an additional animated PlayMode scenario are prepared. Latest source audit: **112 structural checks passed**; **14 C# files passed syntax parsing** (not compilation). Copied FBX hashes match the Blender exports. `git diff --check` passed.
+
+Unity Hub is installed, but Unity Editor remains unavailable in inspected installation locations. The full verification runner was executed again and returned **exit 2 / BLOCKED**. No Unity compilation, asset import, generated runner prefab, PlayMode/EditMode execution or Android/Web build occurred. **Phase 1 acceptance remains incomplete.** See [runner integration](RUNNER_UNITY_INTEGRATION.md) for implementation and exact remaining checks. Earlier evidence below is retained as historical context.
+
 ## Executed here
 - Workspace audit: empty workspace; no existing Unity project.
 - Tool discovery: Python, Node and Git available; Unity, Unity Hub and C# compiler not found in PATH or inspected install locations. Android SDK/build support and Blender unavailable in inspected locations.

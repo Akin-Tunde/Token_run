@@ -1,0 +1,10 @@
+{
+  "fbx_reimported_in_blender": true,
+  "required_humanoid_bones_present": true,
+  "bones": 22,
+  "skinned_meshes": 26,
+  "max_influences": 4,
+  "weight_sums_valid": true,
+  "reimported_knee_deformation_m": 0.4927,
+  "unity_humanoid_import_tested": false
+}

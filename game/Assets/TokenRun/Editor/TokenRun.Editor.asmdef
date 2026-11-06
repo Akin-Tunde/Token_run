@@ -1,1 +1,1 @@
-{"name": "TokenRun.Editor", "references": ["Unity.RenderPipelines.Universal.Runtime"], "includePlatforms": ["Editor"]}
+{"name": "TokenRun.Editor", "references": ["TokenRun.Runtime", "Unity.RenderPipelines.Universal.Runtime"], "includePlatforms": ["Editor"]}

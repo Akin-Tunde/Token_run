@@ -19,3 +19,5 @@ dist/
 *.csproj
 *.sln
 .DS_Store
+*.blend1
+art/runner/*.log

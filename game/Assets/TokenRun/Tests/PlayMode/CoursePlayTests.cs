@@ -26,6 +26,31 @@ namespace TokenRun.Tests {
    InputSystem.QueueStateEvent(keyboard,new KeyboardState()); yield return null;
    Assert.Greater(race.Runner.transform.position.z,start+1f);
   }
+  [UnityTest] public IEnumerator AnimatedRunnerTracksMovementJumpAndRestart() {
+   var visual=race.Runner.GetComponentInChildren<RunnerAnimation>();
+   Assert.IsNotNull(visual,"Run Token Run > Configure Phase 1 to generate the runner prefab.");
+   var animator=visual.GetComponent<Animator>();
+   Assert.IsNotNull(animator.runtimeAnimatorController);
+   Assert.IsFalse(animator.applyRootMotion,"Animation must never move the gameplay controller.");
+   Assert.AreEqual("Idle",visual.CurrentAnimation);
+   Assert.AreEqual(26,visual.GetComponentsInChildren<SkinnedMeshRenderer>().Length);
+   var visualRoot=visual.transform.localPosition;
+   InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W));
+   yield return new WaitForSeconds(.25f);
+   Assert.AreEqual("Run",visual.CurrentAnimation);
+   InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.Space));
+   yield return new WaitForSeconds(.15f);
+   InputSystem.QueueStateEvent(keyboard,new KeyboardState());
+   Assert.AreEqual("Jump",visual.CurrentAnimation);
+   Assert.Greater(race.Runner.FlightProgress,0);
+   Assert.Less(race.Runner.FlightProgress,1);
+   yield return new WaitForSeconds(1f);
+   Assert.IsTrue(race.Runner.Grounded);
+   Assert.AreEqual("Idle",visual.CurrentAnimation);
+   Assert.Less(Vector3.Distance(visualRoot,visual.transform.localPosition),.0001f);
+   race.Begin(); yield return null;
+   Assert.AreEqual("Idle",visual.CurrentAnimation,"Replay must reset animation state.");
+  }
   [UnityTest] public IEnumerator GroundedJumpRisesAndLands() {
    float ground=race.Runner.transform.position.y;
    Assert.IsTrue(race.Runner.GetComponent<CharacterController>().isGrounded);
